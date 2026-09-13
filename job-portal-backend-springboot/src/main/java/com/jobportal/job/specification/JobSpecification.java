@@ -10,9 +10,6 @@ import java.util.List;
 
 public class JobSpecification {
 
-    // Builds a single combined Specification from whichever filters are
-    // non-null. Any filter left null is simply skipped — no messy chained
-    // if/else query-building in the service layer.
     public static Specification<Job> filterBy(
             String search,
             String location,
@@ -43,7 +40,6 @@ public class JobSpecification {
                 predicates.add(cb.equal(root.get("employmentType"), employmentType));
             }
 
-            // A job matches a salary filter if its range overlaps the requested range
             if (minSalary != null) {
                 predicates.add(cb.greaterThanOrEqualTo(root.get("salaryMax"), minSalary));
             }
