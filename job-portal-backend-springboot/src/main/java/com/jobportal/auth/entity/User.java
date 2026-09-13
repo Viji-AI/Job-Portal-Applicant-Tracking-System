@@ -31,7 +31,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Stores the BCrypt hash — never the raw password
+    // Stores the BCrypt hash not the password in raw form 
     @Column(nullable = false)
     private String password;
 
@@ -42,14 +42,12 @@ public class User implements UserDetails {
     private String phone;
 
     // Stores the current valid refresh token so it can be revoked
-    // (logout / password change) by clearing this field.
+
     @Column(columnDefinition = "TEXT")
     private String refreshToken;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    // ---- UserDetails interface methods (required by Spring Security) ----
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -58,7 +56,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email; // we authenticate by email, not a separate username field
+        return email; 
     }
 
     @Override
