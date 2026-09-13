@@ -42,7 +42,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (jwtUtil.isAccessTokenValid(token)) {
                 String email = jwtUtil.extractEmail(token);
 
-                // Only set auth context if not already authenticated in this request
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
@@ -55,8 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            // Invalid/expired token — leave context unauthenticated,
-            // downstream security config will reject with 401/403 as appropriate.
+            // Invalid/expired token and leave context unauthenticated with 401/403.
             SecurityContextHolder.clearContext();
         }
 
