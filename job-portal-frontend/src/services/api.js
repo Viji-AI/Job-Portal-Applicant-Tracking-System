@@ -7,7 +7,6 @@ const apiRequest = async (endpoint, options = {}) => {
         ...options.headers,
     };
 
-    // Don't set Content-Type manually for FormData
     if (!(options.body instanceof FormData)) {
         headers["Content-Type"] = "application/json";
     }
@@ -32,7 +31,6 @@ const apiRequest = async (endpoint, options = {}) => {
             errorMessage =
                 errorData.message || errorMessage;
         } catch {
-            // Response is not JSON
         }
 
         throw new Error(errorMessage);
