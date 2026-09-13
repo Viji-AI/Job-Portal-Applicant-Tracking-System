@@ -26,7 +26,7 @@ public record JobRequest(
         @NotNull(message = "salaryMax is required")
         @Min(value = 0, message = "salaryMax cannot be negative") Integer salaryMax,
 
-        String skills, // comma-separated, optional
+        String skills, 
 
-        LocalDateTime applicationDeadline // optional
+        LocalDateTime applicationDeadline
 ) {}
