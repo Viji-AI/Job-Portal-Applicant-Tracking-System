@@ -25,7 +25,7 @@ public class JobService {
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
 
-    // ---- Public search (only PUBLISHED jobs, no auth required) ----
+    // ---- Public search for jobs
 
     public PagedResponse<JobResponse> searchPublishedJobs(
             String search, String location, EmploymentType employmentType,
@@ -43,7 +43,7 @@ public class JobService {
         return PagedResponse.from(jobs.map(JobResponse::from));
     }
 
-    // ---- Recruiter's own jobs (all statuses, own jobs only) ----
+    // ---- Recruiter's own jobs 
 
     public PagedResponse<JobResponse> getMyJobs(String recruiterEmail, int page, int size, String sortBy, String sortDir) {
         User recruiter = getUserByEmail(recruiterEmail);
@@ -59,7 +59,7 @@ public class JobService {
     public JobResponse getJobById(Long id, String requesterEmail) {
         Job job = findJobOrThrow(id);
 
-        // Non-published jobs are only visible to the recruiter who owns them
+        // Non-published jobs are only visible to the recruiter who owns them 
         if (job.getStatus() != JobStatus.PUBLISHED) {
             if (requesterEmail == null || !job.getRecruiter().getEmail().equals(requesterEmail)) {
                 throw new AuthException("Job not found", HttpStatus.NOT_FOUND);
@@ -88,7 +88,7 @@ public class JobService {
                 .salaryMax(request.salaryMax())
                 .skills(request.skills())
                 .applicationDeadline(request.applicationDeadline())
-                .status(JobStatus.DRAFT) // always starts as draft; publish explicitly via status endpoint
+                .status(JobStatus.DRAFT) 
                 .build();
 
         return JobResponse.from(jobRepository.save(job));
@@ -164,14 +164,11 @@ public class JobService {
     }
 
     private Pageable buildPageable(int page, int size, String sortBy, String sortDir) {
-        // Whitelist sortable fields — never pass raw user input straight into
-        // Sort.by(), it can be used to probe/enumerate entity fields.
         var allowedSortFields = java.util.Set.of("createdAt", "salaryMin", "salaryMax", "title", "experienceMin");
         String field = allowedSortFields.contains(sortBy) ? sortBy : "createdAt";
 
         Sort.Direction direction = "asc".equalsIgnoreCase(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC;
 
-        // Cap page size to prevent someone requesting size=100000 and hammering the DB
         int safeSize = Math.min(Math.max(size, 1), 100);
         int safePage = Math.max(page, 0);
 
