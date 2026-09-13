@@ -419,9 +419,6 @@ public class ApplicationService {
         }
     }
 
-    /*
-     * Validate resume extension, MIME type and file size.
-     */
     private void validateResume(MultipartFile resume) {
 
         if (resume == null || resume.isEmpty()) {
@@ -475,8 +472,6 @@ public class ApplicationService {
     /*
      * Store resume with a generated filename.
      *
-     * UUID prevents filename collisions and avoids trusting
-     * the original filename.
      */
     private String saveResume(MultipartFile resume) {
 
@@ -514,10 +509,6 @@ public class ApplicationService {
                             .resolve(filename)
                             .normalize();
 
-            /*
-             * Make sure the generated target is actually
-             * inside the upload directory.
-             */
             if (!target.startsWith(uploadDirectory)) {
                 throw new AuthException(
                         "Invalid file path",
