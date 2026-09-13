@@ -11,17 +11,11 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Basic in-memory rate limiter for auth endpoints — mitigates brute-force
- * login/register attempts. Good enough for a single-instance deployment;
- * for multi-instance production use, swap this for Redis-backed limiting
- * (e.g. Bucket4j + Redis) so counters are shared across instances.
- */
 @Component
 public class RateLimitFilter extends OncePerRequestFilter {
 
     private static final int MAX_REQUESTS = 20;
-    private static final long WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+    private static final long WINDOW_MS = 15 * 60 * 1000; //only 15 mins session time
 
     private final ConcurrentHashMap<String, RequestWindow> requestCounts = new ConcurrentHashMap<>();
 
