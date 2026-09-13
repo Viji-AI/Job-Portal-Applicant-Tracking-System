@@ -21,7 +21,6 @@ function Navbar() {
                 await logoutUser();
             }
         } catch {
-            // Logout locally even if the server request fails
         }
 
         localStorage.removeItem("accessToken");
