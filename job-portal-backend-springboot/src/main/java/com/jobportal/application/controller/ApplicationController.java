@@ -31,12 +31,6 @@ public class ApplicationController {
      * ---------------------------------------------------------
      * JOB SEEKER - APPLY FOR A JOB
      * ---------------------------------------------------------
-     *
-     * POST /api/v1/applications
-     *
-     * Content-Type:
-     * multipart/form-data
-     *
      * Fields:
      * jobId
      * coverLetter
@@ -71,7 +65,6 @@ public class ApplicationController {
      * JOB SEEKER - VIEW MY APPLICATIONS
      * ---------------------------------------------------------
      *
-     * GET /api/v1/applications/my
      */
     @GetMapping("/my")
     @PreAuthorize("hasRole('JOBSEEKER')")
@@ -116,7 +109,6 @@ public class ApplicationController {
      * RECRUITER - VIEW APPLICANTS FOR A JOB
      * ---------------------------------------------------------
      *
-     * GET /api/v1/applications/job/{jobId}
      */
     @GetMapping("/job/{jobId}")
     @PreAuthorize("hasRole('RECRUITER')")
@@ -168,7 +160,6 @@ public class ApplicationController {
      * The recruiter can view an application belonging to
      * their own job.
      *
-     * GET /api/v1/applications/{id}
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('JOBSEEKER', 'RECRUITER')")
@@ -190,12 +181,6 @@ public class ApplicationController {
      * RECRUITER - UPDATE APPLICATION STATUS
      * ---------------------------------------------------------
      *
-     * PATCH /api/v1/applications/{id}/status
-     *
-     * Example:
-     * {
-     *     "status": "SHORTLISTED"
-     * }
      */
     @PatchMapping("/{id}/status")
     @PreAuthorize("hasRole('RECRUITER')")
@@ -221,8 +206,6 @@ public class ApplicationController {
      * ---------------------------------------------------------
      * VIEW / DOWNLOAD RESUME
      * ---------------------------------------------------------
-     *
-     * GET /api/v1/applications/{id}/resume
      *
      * Only:
      * - the applicant
