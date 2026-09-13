@@ -19,8 +19,6 @@ public class JobController {
 
     private final JobService jobService;
 
-    // ---- Public: search/filter/paginate published jobs ----
-    // No auth required — matches SecurityConfig permitAll on GET /api/v1/jobs/**
     @GetMapping
     public ResponseEntity<PagedResponse<JobResponse>> searchJobs(
             @RequestParam(required = false) String search,
