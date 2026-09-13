@@ -37,8 +37,7 @@ function Login() {
                 "user",
                 JSON.stringify(response.user)
             );
-
-            // Redirect based on user role
+            
             if (response.user.role === "RECRUITER") {
                 window.location.href = "/recruiter-dashboard";
             } else {
