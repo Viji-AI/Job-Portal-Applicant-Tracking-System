@@ -25,8 +25,6 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Lazy fetch: we don't want to pull the whole User (and its jobs) every
-    // time we load a Job unless we explicitly ask for it.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruiter_id", nullable = false)
     private User recruiter;
@@ -50,8 +48,6 @@ public class Job {
     private Integer salaryMin;
     private Integer salaryMax;
 
-    // Comma-separated for simplicity; normalize into a join table later if
-    // you need per-skill querying at scale.
     @Column(columnDefinition = "TEXT")
     private String skills;
 
