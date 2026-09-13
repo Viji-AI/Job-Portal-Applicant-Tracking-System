@@ -22,7 +22,6 @@ public class AuthService {
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
-            // Generic message — don't confirm/deny that an email is already registered
             throw new AuthException("Unable to register with these details", HttpStatus.CONFLICT);
         }
 
@@ -46,7 +45,6 @@ public class AuthService {
     @Transactional
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.email())
-                // Same generic message whether email doesn't exist or password is wrong
                 .orElseThrow(() -> new AuthException("Invalid email or password", HttpStatus.UNAUTHORIZED));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
@@ -73,8 +71,7 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AuthException("User not found", HttpStatus.FORBIDDEN));
 
-        // Confirms the token matches what's stored — allows revoking all
-        // sessions by clearing refreshToken on logout / password change.
+        // Confirms the token matches what's stored and allows revoking all
         if (!token.equals(user.getRefreshToken())) {
             throw new AuthException("Refresh token not recognized", HttpStatus.FORBIDDEN);
         }
