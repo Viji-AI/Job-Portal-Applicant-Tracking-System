@@ -212,7 +212,6 @@ Run → Edit Configurations → JobPortalApplication
 
 Add the environment variables under **Environment variables**.
 
-Do not commit real passwords or JWT secrets to GitHub.
 
 ---
 
